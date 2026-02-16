@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.DS_Store
+coverage
+.vscode
+/data
+services.json
+package-lock.json
+yarn-error.log
+.yarn
