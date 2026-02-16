@@ -25,8 +25,12 @@ function App() {
 
     const categories = [
         "All",
-        ...new Set(services.map((s) => s.category || "Uncategorized")),
-    ].sort();
+        ...new Set(services.map((s) => s.category || "Uncategorized").filter(c => c !== "All")),
+    ].sort((a, b) => {
+        if (a === "All") return -1;
+        if (b === "All") return 1;
+        return a.localeCompare(b);
+    });
 
     const filteredServices = services.filter((service) => {
         const matchesSearch =
