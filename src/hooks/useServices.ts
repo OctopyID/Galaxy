@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Service } from "@/data/services";
 
-const API_URL = "http://localhost:1337/services";
+const API_URL = "/services";
 
 export function useServices() {
   const [services, setServices] = useState<Service[]>([]);
