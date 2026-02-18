@@ -17,13 +17,25 @@ if (!fsSync.existsSync(DATA_DIR)) {
 
 // Ensure services.json exists
 if (!fsSync.existsSync(DATA_FILE)) {
-  fsSync.writeFileSync(DATA_FILE, JSON.stringify([], null, 2));
+  fsSync.writeFileSync(DATA_FILE, JSON.stringify({ services: [] }, null, 2));
 }
 
 export async function readData() {
   try {
-    const data = await fs.readFile(DATA_FILE, "utf-8");
-    return JSON.parse(data);
+    const fileContent = await fs.readFile(DATA_FILE, "utf-8");
+    const data = JSON.parse(fileContent);
+
+    // Handle array format (legacy/bug fix)
+    if (Array.isArray(data)) {
+      return { services: data };
+    }
+
+    // Handle object format
+    if (data && Array.isArray(data.services)) {
+      return data;
+    }
+
+    return { services: [] };
   } catch (error) {
     console.error("Error reading data:", error);
     return { services: [] };
